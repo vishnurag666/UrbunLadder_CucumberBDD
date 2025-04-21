@@ -1,0 +1,22 @@
+Feature: HomePageTest
+
+  Scenario: Check Home Page is Load Correctly
+    
+    Given Browser is open
+    When User is in the Home Page
+    #And User Search a Product
+    #Then User is Navigated to the Product Page
+    
+Scenario: Check The Login With Valid Credentials
+    
+    When The User Clicked on Login
+    And The User Passes The Credentials
+    Then The User Successfully Logined
+
+  Scenario: Check the Product Filter Functionaliy
+    Given The User is in the Product Page
+    When The Pop up message for sign up
+    And User is Logined
+    And Change the Filter
+    And Product is Added To Cart
+    Then User is Navigate to Cart Page

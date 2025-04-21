@@ -1,0 +1,44 @@
+package StepDefinition;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class LoginTest {
+WebDriver driver;
+
+@When("The User Clicked on Login")
+public void the_user_clicked_on_login() {
+	driver.findElement(By.xpath("//span[@class='header-icon-link user-profile-icon']//*[name()='svg']")).click();
+	driver.findElement(By.xpath("//a[@id='header-icon-login']")).click();
+	boolean msg=driver.findElement(By.cssSelector("[class=\"login-message\"]")).isDisplayed();
+	Assert.assertTrue(msg);
+	
+}
+
+@And("The User Passes The Credentials")
+public void the_user_passes_the_credentials() {
+	//driver.findElement(By.xpath("//a[normalize-space()='Log-in']")).click();
+	driver.findElement(By.xpath("(//input[@id='spree_user_email'])[2]")).sendKeys("test2025@gmail.com");
+	driver.findElement(By.xpath("(//input[@id='spree_user_password'])[3]")).sendKeys("@Test123");
+	driver.findElement(By.xpath("//input[@id='ul_site_login']")).click();
+}
+
+@Then("The User Successfully Logined")
+public void the_user_successfully_logined() {
+String url=driver.getCurrentUrl();
+Assert.assertEquals(url, "https://www.urbanladder.com/");
+
+  System.out.println("Logined Successfull");
+  driver.close();
+}
+
+}

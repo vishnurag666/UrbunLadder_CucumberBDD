@@ -1,0 +1,70 @@
+package StepDefinition;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.cucumber.java.en.*;
+
+public class ProductSteps {
+WebDriver driver;
+
+@Given("The User is in the Product Page")
+public void the_user_is_in_the_product_page() {
+	 driver = new ChromeDriver();
+     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+     driver.manage().window().maximize();
+     driver.get("https://www.urbanladder.com/");
+     driver.findElement(By.xpath("//input[@id='search']")).sendKeys("sofa");
+     driver.findElement(By.xpath("//span[@class='search-icon icofont-search']")).click();
+}
+
+@When("The Pop up message for sign up")
+public void the_pop_up_message_for_sign_up() {
+	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+	try {
+		WebElement popup= wait.until(ExpectedConditions.visibilityOf((WebElement) By.xpath("//div[@class='popup-text text-center vert large-6 columns']")));
+		
+		if(popup.isDisplayed()) {
+			driver.findElement(By.xpath("//a[normalize-space()='Log-in']")).click();
+			driver.findElement(By.xpath("(//input[@id='spree_user_email'])[2]")).sendKeys("test2025@gmail.com");
+			driver.findElement(By.xpath("(//input[@id='spree_user_password'])[3]")).sendKeys("@Test123");
+			driver.findElement(By.xpath("//input[@id='ul_site_login']")).click();
+		}
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.out.println("Pop up not showed");
+		
+	}
+}
+
+@And("User is Logined")
+public void user_is_logined() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new io.cucumber.java.PendingException();
+}
+
+@And("Change the Filter")
+public void change_the_filter() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new io.cucumber.java.PendingException();
+}
+
+@And("Product is Added To Cart")
+public void product_is_added_to_cart() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new io.cucumber.java.PendingException();
+}
+
+@Then("User is Navigate to Cart Page")
+public void user_is_navigate_to_cart_page() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new io.cucumber.java.PendingException();
+}
+}

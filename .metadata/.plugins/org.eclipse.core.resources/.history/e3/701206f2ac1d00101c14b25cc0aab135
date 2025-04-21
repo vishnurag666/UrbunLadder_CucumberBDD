@@ -1,0 +1,72 @@
+package UrbanLadderTest;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class UserFlow {
+WebDriver driver;
+	
+	
+	@Test(priority=1)
+	public void setup()
+	{
+	     driver=new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.urbanladder.com/");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+		
+		
+	}
+	
+	@Test(priority=2)
+	public void HomepageTest() {
+		String url=driver.getCurrentUrl();
+		Assert.assertEquals(url, "https://www.urbanladder.com/");
+	}
+	
+	@Test(priority=3)
+	public void search() {
+		driver.findElement(By.cssSelector("[id=\"search\"]")).sendKeys("Sofa");
+		driver.findElement(By.cssSelector("[class=\"search-icon icofont-search\"]")).click();
+		String url= driver.getCurrentUrl();
+		if(url.contains("sofa")) {
+			System.out.println("Sofa Page is Loaded");
+		}else {
+			Assert.fail();
+		}
+		
+	}
+	
+	@Test(priority=4)
+	public void popup() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+		try {
+			WebElement popup= wait.until(ExpectedConditions.visibilityOf((WebElement) By.xpath("//div[@class='popup-text text-center vert large-6 columns']")));
+			
+			if(popup.isDisplayed()) {
+				driver.findElement(By.xpath("//a[normalize-space()='Log-in']")).click();
+				driver.findElement(By.xpath("(//input[@id='spree_user_email'])[2]")).sendKeys("test2025@gmail.com");
+				driver.findElement(By.xpath("(//input[@id='spree_user_password'])[3]")).sendKeys("@Test123");
+				driver.findElement(By.xpath("//input[@id='ul_site_login']")).click();
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Pop up not showed");
+			
+		}
+
+		
+		
+	
+		
+	}
+}

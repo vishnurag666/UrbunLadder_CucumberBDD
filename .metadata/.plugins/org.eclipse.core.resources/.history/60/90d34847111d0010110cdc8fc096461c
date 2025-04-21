@@ -1,0 +1,53 @@
+package StepDefinition;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import io.cucumber.java.en.*;
+
+public class Home_Steps {
+
+	WebDriver driver;
+
+    @Given("Browser is open")
+    public void browser_is_open() {
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+    }
+
+    @When("User is in the Home Page")
+    public void user_is_in_the_home_page() {
+        driver.get("https://www.urbanladder.com/"); // Replace with your actual URL
+    }
+
+    @And("The Page Is Loaded")
+    public void the_page_is_loaded() {
+        // Wait or verify any key element of the home page
+        boolean isLogoDisplayed = driver.findElement(By.id("site-logo")).isDisplayed();
+        assert isLogoDisplayed;
+    }
+
+    @And("User Search a Product")
+    public void user_search_a_product() {
+        driver.findElement(By.name("search")).sendKeys("Laptop");
+        driver.findElement(By.id("search-button")).click(); // Replace with actual button ID
+    }
+
+    @Then("User is Navigated to the Product Page")
+    public void user_is_navigated_to_the_product_page() {
+        // Verify URL or presence of product listings
+        String currentUrl = driver.getCurrentUrl();
+        assert currentUrl.contains("search");
+
+        boolean productListVisible = driver.findElement(By.id("product-list")).isDisplayed();
+        assert productListVisible;
+
+        // Cleanup
+        driver.quit();
+    }
+
+}

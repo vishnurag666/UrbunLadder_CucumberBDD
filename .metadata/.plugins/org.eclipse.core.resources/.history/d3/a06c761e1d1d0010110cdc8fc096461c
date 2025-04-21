@@ -1,0 +1,33 @@
+package StepDefinition;
+
+import java.time.Duration;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import io.cucumber.java.en.*;
+
+public class LoginTest {
+WebDriver driver;
+
+@When("The User Clicked on Login")
+public void the_user_clicked_on_login() {
+	 driver = new ChromeDriver();
+     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+     driver.manage().window().maximize();
+     driver.get("https://www.urbanladder.com/");
+}
+
+@When("The User Passes The Credentials")
+public void the_user_passes_the_credentials() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new io.cucumber.java.PendingException();
+}
+
+@Then("The User Successfully Logined")
+public void the_user_successfully_logined() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new io.cucumber.java.PendingException();
+}
+
+}

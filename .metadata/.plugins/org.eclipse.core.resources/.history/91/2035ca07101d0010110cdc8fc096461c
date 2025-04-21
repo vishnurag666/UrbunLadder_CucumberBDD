@@ -1,0 +1,9 @@
+Feature: Home Page Test	
+
+Scenario: Check Home Page is Load Correctly
+
+Given: Browser is open
+When: User is in the Home Page
+And: The Page Is Loaded 
+And: User Search a Product
+Then: User is Navigated to the Product Page

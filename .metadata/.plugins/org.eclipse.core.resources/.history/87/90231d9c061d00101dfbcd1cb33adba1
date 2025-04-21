@@ -1,0 +1,39 @@
+package UrbanLadderTest;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class UserFlow {
+WebDriver driver;
+	
+	
+	@Test
+	public void setup()
+	{
+	     driver=new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.urbanladder.com/");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+		
+		
+	}
+	
+	@Test
+	public void HomepageTest() {
+		String url=driver.getCurrentUrl();
+		Assert.assertEquals(url, "https://www.urbanladder.com/");
+	}
+	
+	@Test
+	public void search() {
+		driver.findElement(By.id("#search")).sendKeys("Sofa");
+		driver.findElement(By.cssSelector("[class=\"search-icon icofont-search\"]")).click();
+		
+		
+	}
+}

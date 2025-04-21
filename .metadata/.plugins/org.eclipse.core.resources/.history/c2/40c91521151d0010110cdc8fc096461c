@@ -1,0 +1,119 @@
+package StepDefinition;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+import io.cucumber.java.en.*;
+
+//public class Home_Steps {
+//
+//	WebDriver driver;
+//
+//    @Given("Browser is open")
+//    public void browser_is_open() {
+//        driver = new ChromeDriver();
+//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+//        driver.manage().window().maximize();
+//    }
+//
+//    @When("User is in the Home Page")
+//    public void user_is_in_the_home_page() {
+//        driver.get("https://www.urbanladder.com/"); 
+//    }
+//
+//    @And("The Page Is Loaded")
+//    public void the_page_is_loaded() {
+//   
+//        boolean isLogoDisplayed = driver.findElement(By.cssSelector("[class=\"header__topBar_logo\"]")).isDisplayed();
+//        Assert.assertTrue(isLogoDisplayed);   
+//        }
+//
+//    @And("User Search a Product")
+//    public void user_search_a_product() {
+//        driver.findElement(By.name("[id=\\\"search\\\"]")).sendKeys("sofa");
+//        driver.findElement(By.id("[class=\\\"search-icon icofont-search\\\"]")).click();
+//    }
+//
+//    @Then("User is Navigated to the Product Page")
+//    public void user_is_navigated_to_the_product_page() {
+//       
+//        String currentUrl = driver.getCurrentUrl();
+//        assert currentUrl.contains("sofa");
+//
+//      
+//        driver.quit();
+//    }
+//
+//}
+
+
+WebDriver driver;
+    WebDriverWait wait;
+
+    @Given("User in on Home Page")
+    public void user_in_on_home_page() {
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        driver.get("https://www.urbanladder.com/");
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
+
+        try {
+            WebElement closePopup = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[normalize-space()='Close']")));
+            if (closePopup.isDisplayed()) {
+                closePopup.click();
+                System.out.println("Popup closed.");
+            }
+        } catch (Exception e) {
+            System.out.println("No popup appeared.");
+        }
+
+        // Verify page title and logo using TestNG
+        Assert.assertTrue(driver.getTitle().contains("Urban Ladder"), "Title does not contain 'Urban Ladder'");
+        Assert.assertTrue(driver.findElement(By.className("header__topBar_logo")).isDisplayed(), "Logo is not displayed");
+    }
+
+    @And("User scroll the website")
+    public void user_scroll_the_website() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        // Scroll down step by step
+        for (int i = 0; i < 5; i++) {
+            js.executeScript("window.scrollBy(0, 500)");
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @When("All sections are visible")
+    public void all_sections_are_visible() {
+        // Validate key section is visible (example: Trending)
+        try {
+            WebElement trendingSection = driver.findElement(By.xpath("//h2[contains(text(),'Trending')]"));
+            Assert.assertTrue(trendingSection.isDisplayed(), "'Trending' section is not visible");
+        } catch (Exception e) {
+            Assert.fail("Trending section not found or failed to load.");
+        }
+    }
+
+    @Then("user should see the home page loaded successfully")
+    public void user_should_see_the_home_page_loaded_successfully() {
+        boolean isHomeLoaded = driver.getPageSource().contains("Living");
+        Assert.assertTrue(isHomeLoaded, "Home Page did not load as expected.");
+        System.out.println("Home Page loaded and verified successfully.");
+    }
+
+    @Then("close the browser")
+    public void close_the_browser() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }

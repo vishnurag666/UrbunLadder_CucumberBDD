@@ -1,0 +1,7 @@
+Feature: Login Test
+
+  Scenario: Check The Login With Valid Credentials
+    Given User is in the Home Page
+    When The User Clicked on Login
+    And The User Passes The Credentials
+    Then The User Successfully Logined

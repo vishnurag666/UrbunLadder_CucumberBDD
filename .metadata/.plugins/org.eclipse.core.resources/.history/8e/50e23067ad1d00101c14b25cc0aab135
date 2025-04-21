@@ -1,0 +1,14 @@
+Feature: HomePageTest
+
+  Scenario: Check Home Page is Load Correctly
+    Given Browser is open
+    When User is in the Home Page
+
+  #And User Search a Product
+  #Then User is Navigated to the Product Page
+  Scenario: Check The Login With Valid Credentials
+    When The User Clicked on Login
+    And The User Passes The Credentials
+    Then The User Successfully Logined
+
+  

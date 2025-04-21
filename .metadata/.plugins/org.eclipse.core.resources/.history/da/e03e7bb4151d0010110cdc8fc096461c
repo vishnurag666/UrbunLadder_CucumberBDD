@@ -1,0 +1,48 @@
+package StepDefinition;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+import io.cucumber.java.en.*;
+
+public class Home_Steps {
+
+	WebDriver driver;
+
+    @Given("Browser is open")
+    public void browser_is_open() {
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+        driver.get("https://www.urbanladder.com/");
+    }
+
+    @When("User is in the Home Page")
+    public void user_is_in_the_home_page() {
+    	 boolean isLogoDisplayed = driver.findElement(By.cssSelector("[class=\"header__topBar_logo\"]")).isDisplayed();
+         Assert.assertTrue(isLogoDisplayed);   
+    }
+
+   
+
+    @And("User Search a Product")
+    public void user_search_a_product() {
+        driver.findElement(By.name("[id=\\\"search\\\"]")).sendKeys("sofa");
+        driver.findElement(By.id("[class=\\\"search-icon icofont-search\\\"]")).click();
+    }
+
+    @Then("User is Navigated to the Product Page")
+    public void user_is_navigated_to_the_product_page() {
+       
+        String currentUrl = driver.getCurrentUrl();
+        assert currentUrl.contains("sofa");
+
+      
+        driver.quit();
+    }
+
+}

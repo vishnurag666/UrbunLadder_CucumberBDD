@@ -1,0 +1,9 @@
+Feature: Product Page Test
+
+  Scenario: Check the Product Filter Functionaliy
+    Given The User is in the Product Page
+    When The Pop up message for sign up
+    And User is Logined
+    And Change the Filter
+    And Product is Added To Cart
+    Then User is Navigate to Cart Page

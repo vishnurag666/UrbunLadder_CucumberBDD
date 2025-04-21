@@ -1,0 +1,63 @@
+package StepDefinition;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class LoginTest {
+WebDriver driver;
+
+@Given("The User is in the Home Page")
+public void the_user_is_in_the_home_page() {
+   driver=new ChromeDriver();
+   driver.get("https://www.urbanladder.com/");
+   driver.manage().window().maximize();
+   driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+}
+
+@When("The User Clicked on Login")
+public void the_user_clicked_on_login() {
+  driver.findElement(By.xpath("//span[@class='header-icon-link user-profile-icon']//*[name()='svg']")).click();
+  driver.findElement(By.xpath("//a[@id='header-icon-login']")).click();
+  
+  
+  
+
+}
+
+@And("The User Passes The Credentials")
+public void the_user_passes_the_credentials() {
+	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+	 
+	   wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='password-credentials']//input[@id='spree_user_email']"))); 
+	  
+	  driver.findElement(By.xpath("//div[@id='password-credentials']//input[@id='spree_user_email']")).sendKeys("test2025@gmail.com");
+	  driver.findElement(By.xpath("//div[@class='password-wrap']//input[@id='spree_user_password']")).sendKeys("@Test123");
+	 
+}
+
+@And("The User Clicked Login Buttun")
+public void the_user_clicked_login_buttun() {
+
+	driver.findElement(By.xpath("//input[@id='ul_site_login']")).click();
+}
+
+@Then("The User is Navigate back to the Home Page")
+public void the_user_is_navigate_back_to_the_home_page() {
+   boolean logo= driver.findElement(By.xpath("//figure[@class='header__topBar_logo']//*[name()='svg']")).isDisplayed();
+   Assert.assertTrue(logo);
+}
+
+
+}
