@@ -1,0 +1,148 @@
+package StepDefinition;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class UserFlow {
+WebDriver driver;
+
+@Given("The User is in the Home Page")
+public void the_user_is_in_the_home_page() {
+   driver=new ChromeDriver();
+   driver.get("https://www.urbanladder.com/");
+   driver.manage().window().maximize();
+   driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+}
+
+@When("The User Clicked on Login")
+public void the_user_clicked_on_login() {
+  driver.findElement(By.xpath("//span[@class='header-icon-link user-profile-icon']//*[name()='svg']")).click();
+  driver.findElement(By.xpath("//a[@id='header-icon-login']")).click();
+  
+  
+  
+
+}
+
+@And("The User Passes The Credentials")
+public void the_user_passes_the_credentials() {
+	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+	 
+	   wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='password-credentials']//input[@id='spree_user_email']"))); 
+	  
+	  driver.findElement(By.xpath("//div[@id='password-credentials']//input[@id='spree_user_email']")).sendKeys("test2025@gmail.com");
+	  driver.findElement(By.xpath("//div[@class='password-wrap']//input[@id='spree_user_password']")).sendKeys("@Test123");
+	 
+}
+
+@And("The User Clicked Login Button")
+public void the_user_clicked_login_buttun() {
+
+	driver.findElement(By.xpath("//input[@id='ul_site_login']")).click();
+}
+
+@Then("The User is Navigate back to the Home Page")
+public void the_user_is_navigate_back_to_the_home_page() {
+   boolean logo= driver.findElement(By.xpath("//figure[@class='header__topBar_logo']//*[name()='svg']")).isDisplayed();
+   Assert.assertTrue(logo);
+   
+}
+
+@When("The User Search a Product")
+public void the_user_search_a_product() throws InterruptedException {
+	Thread.sleep(2000);
+  // driver.findElement(By.xpath("//input[@id='search']")).click();
+   driver.findElement(By.id("search")).sendKeys("sofa");
+}
+
+@And("Clicked the search button")
+public void clicked_the_search_button() {
+    driver.findElement(By.xpath("//span[@class='search-icon icofont-search']")).click();
+}
+
+@Then("User Navigate to the product Page")
+public void user_navigate_to_the_product_page() {
+    Assert.assertTrue(driver.getCurrentUrl().contains("sofa"));
+    
+}
+
+
+@When("User Clicked Catogary Button")
+public void user_clicked_catogary_button() {
+	  Actions actions = new Actions(driver);
+
+
+      WebElement Category = driver.findElement(By.xpath("//div[normalize-space()='Category']"));
+      actions.moveToElement(Category).perform();
+}
+
+@And("Select the Fabric Sofa Set")
+public void select_the_fabric_sofa_set() {
+  driver.findElement(By.xpath("//input[@id='filters_primary_category_Fabric_Sofa_Sets']")).click();
+  driver.findElement(By.xpath("//input[@id='filters_primary_category_Sofa_cum_Bed']")).click();
+  driver.findElement(By.xpath("//input[@id='filters_primary_category_Ottomans__Stools']")).click();
+  driver.findElement(By.xpath("//input[@id='filters_primary_category_Leather_Sofa_Sets']")).click();
+  driver.findElement(By.xpath("//input[@id='filters_primary_category_Wooden_Sofa_Sets']")).click();
+}
+
+@Then("The User Got Fabric Sofa Sets")
+public void the_user_got_fabric_sofa_sets() {
+     Assert.assertTrue(driver.getPageSource().contains("Fabric Sofa Sets"));
+}
+
+@When("User Clicked on Sofa")
+public void user_clicked_on_sofa() throws InterruptedException {
+//    WebElement sofa1=driver.findElement(By.xpath("//img[@title='Rio Milan Fabric Sofa (Black)']"));
+//    sofa1.click();
+    Actions actions = new Actions(driver);
+
+
+    WebElement product = driver.findElement(By.xpath("//img[@title='Weston Half Leather Sofa (Licorice Italian Leather)']"));
+    actions.moveToElement(product).perform();
+    driver.findElement(By.xpath("//a[@href='/products/weston-half-leather-sofa-licorice-italian-leather?src=room'][normalize-space()='View 8 options']")).click();
+}
+
+@Then("User Navigated to the Sofa Page")
+public void user_navigated_to_the_sofa_page() {
+ Assert.assertTrue(driver.getCurrentUrl().contains("fabric"));
+}
+
+@When("User Click on Order your Set")
+public void user_click_on_order_your_set() {
+    driver.findElement(By.xpath("//a[normalize-space()='Order Your Set']")).click();
+    
+}
+
+@Then("User redirected to Price Page")
+public void user_redirected_to_price_page() {
+   Assert.assertTrue(driver.getCurrentUrl().contains("sofa-pricing"));
+}
+
+@When("User Clicked Add to Cart")
+public void user_clicked_add_to_cart() {
+    driver.findElement(By.xpath("//button[@id='add-to-cart-button']")).click();
+}
+
+@Then("User Redirected to Cart Page")
+public void user_redirected_to_cart_page() {
+   Assert.assertTrue(driver.getCurrentUrl().contains("cart"));
+}
+
+
+
+}

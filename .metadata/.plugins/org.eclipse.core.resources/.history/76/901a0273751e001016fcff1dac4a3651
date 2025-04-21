@@ -1,0 +1,14 @@
+package TestRunners;
+
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
+
+@CucumberOptions(
+    features = "/UrbanLadder/src/test/resources/feature",         // Path to .feature files
+    glue = "StepDefinition"                         // Package with step definitions
+   
+)
+public class TestRunner extends AbstractTestNGCucumberTests {
+
+
+}

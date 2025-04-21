@@ -1,0 +1,33 @@
+package StepDefinition;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+
+import io.cucumber.java.en.*;
+
+public class SearchTest {
+WebDriver driver;
+
+
+
+    @When("The User Search a Product")
+    public void the_user_search_a_product() throws InterruptedException {
+    	Thread.sleep(2000);
+       driver.findElement(By.xpath("//input[@id='search']")).click();
+       driver.findElement(By.xpath("//input[@id='search']")).sendKeys("sofa");
+    }
+
+    @And("Clicked the search button")
+    public void clicked_the_search_button() {
+        driver.findElement(By.xpath("//span[@class='search-icon icofont-search']")).click();
+    }
+
+    @Then("User Navigate to the product Page")
+    public void user_navigate_to_the_product_page() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("sofa"));
+        driver.close();
+    }
+}
+
+

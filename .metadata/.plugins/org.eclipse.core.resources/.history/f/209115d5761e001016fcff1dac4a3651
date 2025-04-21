@@ -1,0 +1,9 @@
+Feature: HomePageTest
+
+  Scenario: Check The Login With Valid Credentials
+    Given The User is in the Home Page
+    When The User Clicked on Login
+    And The User Passes The Credentials
+    And The User Clicked Login Buttun
+    Then The User is Navigate back to the Home Page
+
